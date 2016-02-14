@@ -1,0 +1,34 @@
+snippet sqexp
+       # These values need to be updated to local project settings
+       export TOKEN_ID="${1:token_id}"
+       export CLUSTER_ID="${2:cluster_id}"
+       export PROJECT_ID="${3:project_id}"
+      #
+       # These don't need to be changed
+       export LOG_FOLDER="log/"
+       export DATE_STR=\`date +%Y-%m-%d-%T\`
+       export TEMPLOG_FILE="/tmp/squirro-data-import.log.${DATE_STR}"
+       export LOG_FILE="./log/squirro-data-import.log.${DATE_STR}"
+       export BIN_DIR="./bin"
+
+snippet sqcall
+       (
+               ${0}
+
+       )2>&1 | tee -a ${TEMPLOG_FILE}
+
+       echo "Copying log file from ${TEMPLOG_FILE} to ${LOG_FILE}"
+       cp ${TEMPLOG_FILE} ${LOG_FILE}
+
+       exit 0
+
+
+snippet sqsource
+       source /opt/rh/python27/enable
+       source /opt/squirro/virtualenv/bin/activate
+
+snippet sqcl
+       if [[ ! -d ./log  ]]; then
+           mkdir ./log
+       fi
+
